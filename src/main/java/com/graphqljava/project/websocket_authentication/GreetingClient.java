@@ -1,17 +1,18 @@
 package com.graphqljava.project.websocket_authentication;
 
 import org.springframework.graphql.client.WebSocketGraphQlClient;
-import org.springframework.web.reactive.socket.client.ReactorNetty2WebSocketClient;
+import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
 
+import java.io.IOException;
 import java.net.URI;
 
 public class GreetingClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         WebSocketGraphQlClient graphQlClient = WebSocketGraphQlClient
-                .builder(URI.create("ws://localhost:8080/graphql"), new ReactorNetty2WebSocketClient())
-                .interceptors(JwtGraphQlClientInterceptor.create())
+                .builder(URI.create("ws://localhost:8080/graphql"), new ReactorNettyWebSocketClient())
+                .interceptor(JwtGraphQlClientInterceptor.create())
                 .build();
 
         graphQlClient.document("subscription {greetings}")
